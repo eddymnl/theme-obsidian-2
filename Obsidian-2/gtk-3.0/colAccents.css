@@ -52,21 +52,21 @@
 @define-color    button_border_sugg                    #003361;
 
 /* progress bar */
-@define-color    prgbar_bg_a                           #176ee0;
-@define-color    prgbar_bg_b                           #1562e2;
+@define-color    prgbar_bg_a                          #176ee0;
+@define-color    prgbar_bg_b                          #1562e2;
 
 /* scale slider */
-@define-color    slider_bg_a                           @theme_accent_color;
-@define-color    slider_bg_b                           @theme_accent_color;
-@define-color    slider_bdr                            @theme_accent_color;
-@define-color    slider_fg_shadow                      @shadow_color;
-@define-color    slider_bg_a_hov                       #0099FF;
-@define-color    slider_bg_b_hov                       #0099FF;
-@define-color    slider_bdr_hov                        #0099FF;
-@define-color    slider_bg_act                         #0099FF;
-@define-color    slider_bg_dis_a                       #546063;
-@define-color    slider_bg_dis_b                       #546063;
-@define-color    slider_bdr_dis                        #546063;
+@define-color    slider_bg_a                          @theme_accent_color;
+@define-color    slider_bg_b                          @theme_accent_color;
+@define-color    slider_bdr                           @theme_accent_color;
+@define-color    slider_fg_shadow                     @shadow_color;
+@define-color    slider_bg_a_hov                      #0099FF;
+@define-color    slider_bg_b_hov                      #0099FF;
+@define-color    slider_bdr_hov                       #0099FF;
+@define-color    slider_bg_act                        #0099FF;
+@define-color    slider_bg_dis_a                      #546063;
+@define-color    slider_bg_dis_b                      #546063;
+@define-color    slider_bdr_dis                       #546063;
 
 /* infobar */
 @define-color    infobar_bg_a                          #005699;
@@ -118,4 +118,16 @@ headerbar .nautilus-pathbar > menubutton > button.toggle:hover {
 headerbar .nautilus-pathbar > menubutton > button.toggle:active,
 headerbar .nautilus-pathbar > menubutton > button.toggle:checked {
     background-color: @button_bg_b_act;
+}
+
+/* GTK4 / Nautilus: normalize the pathbar container itself so it aligns
+ * with the other controls in the headerbar.  No button geometry is changed. */
+headerbar .nautilus-pathbar {
+    margin: 0;
+    padding: 0;
+}
+
+headerbar .nautilus-pathbar > scrolledwindow,
+headerbar .nautilus-pathbar > menubutton {
+    margin: 0;
 }
