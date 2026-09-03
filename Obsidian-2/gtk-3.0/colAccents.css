@@ -87,17 +87,24 @@
 
 @define-color    terminal_fg                           #729FCF;
 
-/* GTK4 / Nautilus compatibility:
- * Nautilus 4.x exposes the path bar as .nautilus-pathbar.  Its buttons
- * are descendants of that widget, including the current-folder menu button.
- * Only the generic button image/shadow is removed; geometry, colors and
- * borders remain inherited from the original Obsidian-2 theme. */
-headerbar .nautilus-pathbar button,
-headerbar .nautilus-pathbar button:hover,
-headerbar .nautilus-pathbar button:active,
-headerbar .nautilus-pathbar button:checked,
-headerbar .nautilus-pathbar button:backdrop,
-headerbar .nautilus-pathbar button:disabled {
+/* GTK4 / Nautilus: target only the confirmed pathbar nodes. */
+headerbar .nautilus-pathbar > scrolledwindow button,
+headerbar .nautilus-pathbar > scrolledwindow button:hover,
+headerbar .nautilus-pathbar > scrolledwindow button:active,
+headerbar .nautilus-pathbar > scrolledwindow button:checked,
+headerbar .nautilus-pathbar > scrolledwindow button:backdrop,
+headerbar .nautilus-pathbar > scrolledwindow button:disabled {
+    background-image: none;
+    box-shadow: none;
+}
+
+/* Current-folder menu button: menubutton is a sibling of scrolledwindow. */
+headerbar .nautilus-pathbar > menubutton > button.toggle,
+headerbar .nautilus-pathbar > menubutton > button.toggle:hover,
+headerbar .nautilus-pathbar > menubutton > button.toggle:active,
+headerbar .nautilus-pathbar > menubutton > button.toggle:checked,
+headerbar .nautilus-pathbar > menubutton > button.toggle:backdrop,
+headerbar .nautilus-pathbar > menubutton > button.toggle:disabled {
     background-image: none;
     box-shadow: none;
 }
