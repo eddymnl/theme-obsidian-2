@@ -5,7 +5,7 @@
 ************************************************************************************************* */
 
 
-/* ****************************** A C C E N T   C O L O R S *********************************** */
+/* ****************************** A C C E N T   C O L O U R S *********************************** */
 
 @define-color    theme_accent_color                    #0070c0;
 
@@ -87,21 +87,6 @@
 
 @define-color    terminal_fg                           #729FCF;
 
-
-/* Nautilus GTK4: keep the original Obsidian button geometry.  Only disable
- * the generic GTK button background image/shadow that leaks into the path bar. */
-.nautilus-window .nautilus-path-bar .path-buttons-box button,
-.nautilus-window .path-buttons-box button {
-    background-image: none;
-    box-shadow: none;
-}
-
-.nautilus-window .nautilus-path-bar > scrolledwindow,
-.nautilus-window .path-bar-box > scrolledwindow {
-    background-image: none;
-    box-shadow: none;
-}
-
 /* Nautilus split panes: keep the two headerbars vertically aligned. */
 .nautilus-window .sidebar-pane headerbar,
 .nautilus-window .content-pane headerbar,
@@ -118,12 +103,9 @@
     border-bottom: 1px solid @header_separator;
 }
 
-/* Nautilus GTK4 menu button: remove only the leaked generic gradient/shadow;
- * do not alter its border, radius, padding or normal button appearance. */
-.nautilus-window headerbar menubutton > button.toggle,
-.nautilus-window headerbar menubutton > button.toggle:hover,
-.nautilus-window headerbar menubutton > button.toggle:active,
-.nautilus-window headerbar menubutton > button.toggle:checked {
+/* Nautilus GTK4 path bar only.  This is the selector used by Nautilus itself,
+ * so the generic Obsidian button styling remains untouched everywhere else. */
+.nautilus-window headerbar .linked.nautilus-path-bar .path-buttons-box button {
     background-image: none;
     box-shadow: none;
 }
