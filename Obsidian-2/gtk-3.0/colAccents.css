@@ -87,4 +87,17 @@
 
 @define-color    terminal_fg                           #729FCF;
 
+/* GTK4 / Nautilus compatibility: keep the legacy theme button styling,
+   but remove its gradient only from the current Nautilus pathbar controls. */
+.nautilus-window headerbar .nautilus-path-bar > button,
+.nautilus-window headerbar .path-buttons-box button {
+    background-image: none;
+    box-shadow: none;
+}
 
+/* The Nautilus headerbar menu button is a GtkMenuButton whose CSS node
+   contains button.toggle. Do not alter other headerbar buttons. */
+.nautilus-window headerbar > menubutton > button.toggle {
+    background-image: none;
+    box-shadow: none;
+}
