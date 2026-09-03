@@ -88,3 +88,69 @@
 @define-color    terminal_fg                           #729FCF;
 
 
+/* Nautilus: GTK4 uses the class-based path bar nodes.  These rules preserve
+ * the original Obsidian path-bar colors while preventing the generic button
+ * gradient from producing the visible ghost/double edge. */
+.nautilus-window .nautilus-path-bar,
+.nautilus-window .path-bar-box {
+    min-height: 32px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    background-color: @pathbar_bg;
+    border: 1px solid @pathbar_bdr;
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+.nautilus-window .nautilus-path-bar > button,
+.nautilus-window .path-buttons-box button {
+    min-height: 32px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: @pathbar_bg;
+    background-image: none;
+    box-shadow: none;
+    -gtk-icon-shadow: none;
+}
+
+.nautilus-window .nautilus-path-bar > button:hover,
+.nautilus-window .path-buttons-box button:hover {
+    background-color: @pathbar_btn_hov;
+    background-image: none;
+    box-shadow: none;
+}
+
+.nautilus-window .nautilus-path-bar > button:active,
+.nautilus-window .nautilus-path-bar > button:checked,
+.nautilus-window .path-buttons-box button:active,
+.nautilus-window .path-buttons-box button:checked,
+.nautilus-window .nautilus-path-bar > button.current-dir,
+.nautilus-window .path-buttons-box button.current-dir {
+    background-color: @pathbar_btn_act;
+    background-image: none;
+    box-shadow: none;
+}
+
+.nautilus-window .nautilus-path-bar > button label,
+.nautilus-window .path-buttons-box button label {
+    color: @pathbar_fg;
+}
+
+/* Nautilus split panes: force the two headerbars to share the same vertical
+ * metrics so the horizontal separator stays on one line. */
+.nautilus-window .sidebar-pane headerbar,
+.nautilus-window .content-pane headerbar,
+.nautilus-window .sidebar-pane headerbar:backdrop,
+.nautilus-window .content-pane headerbar:backdrop {
+    min-height: 46px;
+    padding-top: 0;
+    padding-bottom: 0;
+    box-shadow: none;
+}
+
+.nautilus-window .sidebar-pane,
+.nautilus-window .content-pane {
+    border-bottom: 1px solid @header_separator;
+}
