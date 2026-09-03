@@ -87,17 +87,30 @@
 
 @define-color    terminal_fg                           #729FCF;
 
-/* GTK4 / Nautilus compatibility: keep the legacy theme button styling,
-   but remove its gradient only from the current Nautilus pathbar controls. */
-.nautilus-window headerbar .nautilus-path-bar > button,
-.nautilus-window headerbar .path-buttons-box button {
+/* GTK4 / Nautilus compatibility: target current Nautilus CSS nodes. */
+headerbar .nautilus-path-bar > button,
+headerbar .nautilus-path-bar > button:hover,
+headerbar .nautilus-path-bar > button:active,
+headerbar .nautilus-path-bar > button:checked,
+headerbar .nautilus-path-bar > button:backdrop,
+headerbar .nautilus-path-bar > button:disabled,
+headerbar .path-buttons-box button,
+headerbar .path-buttons-box button:hover,
+headerbar .path-buttons-box button:active,
+headerbar .path-buttons-box button:checked,
+headerbar .path-buttons-box button:backdrop,
+headerbar .path-buttons-box button:disabled {
     background-image: none;
     box-shadow: none;
 }
 
-/* The Nautilus headerbar menu button is a GtkMenuButton whose CSS node
-   contains button.toggle. Do not alter other headerbar buttons. */
-.nautilus-window headerbar > menubutton > button.toggle {
+/* GtkMenuButton uses a button.toggle CSS node. */
+headerbar menubutton > button.toggle,
+headerbar menubutton > button.toggle:hover,
+headerbar menubutton > button.toggle:active,
+headerbar menubutton > button.toggle:checked,
+headerbar menubutton > button.toggle:backdrop,
+headerbar menubutton > button.toggle:disabled {
     background-image: none;
     box-shadow: none;
 }
