@@ -5,7 +5,7 @@
 ************************************************************************************************* */
 
 
-/* ****************************** A C C E N T   C O L O U R S *********************************** */
+/* ****************************** A C C E N T   C O L O R S *********************************** */
 
 @define-color    theme_accent_color                    #0070c0;
 
@@ -92,14 +92,14 @@
  * the generic GTK button background image/shadow that leaks into the path bar. */
 .nautilus-window .nautilus-path-bar .path-buttons-box button,
 .nautilus-window .path-buttons-box button {
-    background-image: none !important;
-    box-shadow: none !important;
+    background-image: none;
+    box-shadow: none;
 }
 
 .nautilus-window .nautilus-path-bar > scrolledwindow,
 .nautilus-window .path-bar-box > scrolledwindow {
-    background-image: none !important;
-    box-shadow: none !important;
+    background-image: none;
+    box-shadow: none;
 }
 
 /* Nautilus split panes: keep the two headerbars vertically aligned. */
@@ -124,6 +124,6 @@
 .nautilus-window headerbar menubutton > button.toggle:hover,
 .nautilus-window headerbar menubutton > button.toggle:active,
 .nautilus-window headerbar menubutton > button.toggle:checked {
-    background-image: none !important;
-    box-shadow: none !important;
+    background-image: none;
+    box-shadow: none;
 }
