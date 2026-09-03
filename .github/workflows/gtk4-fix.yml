@@ -86,6 +86,95 @@ jobs:
           fi
           if [ "$rc" -ne 0 ] && [ "$rc" -ne 124 ]; then exit "$rc"; fi
 
+      - name: Add Nautilus GTK4 compatibility overrides
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat >> Obsidian-2/gtk-4.0/gtk.css <<'CSS'
+
+/* Nautilus GTK4 compatibility: keep both split headerbars aligned and prevent
+ * the generic Obsidian button gradient from leaking onto path-bar controls. */
+.nautilus-window headerbar,
+.nautilus-window headerbar:backdrop {
+    min-height: 46px;
+    padding: 0;
+    border-bottom: 1px solid @header_separator;
+    box-shadow: none;
+}
+
+.nautilus-window .sidebar-pane headerbar,
+.nautilus-window .content-pane headerbar,
+.nautilus-window .sidebar-pane headerbar:backdrop,
+.nautilus-window .content-pane headerbar:backdrop {
+    min-height: 46px;
+    padding-top: 0;
+    padding-bottom: 0;
+    box-shadow: none;
+}
+
+.nautilus-window .nautilus-path-bar,
+.nautilus-window .path-bar-box {
+    min-height: 32px;
+    margin-top: 1px;
+    margin-bottom: 1px;
+    background-color: @pathbar_bg;
+    border: 1px solid @pathbar_bdr;
+    border-radius: 4px;
+    box-shadow: none;
+}
+
+.nautilus-window .nautilus-path-bar > button,
+.nautilus-window .path-buttons-box button {
+    min-height: 32px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: @pathbar_bg;
+    background-image: none;
+    box-shadow: none;
+    -gtk-icon-shadow: none;
+}
+
+.nautilus-window .nautilus-path-bar > button:hover,
+.nautilus-window .path-buttons-box button:hover {
+    background-color: @pathbar_btn_hov;
+    background-image: none;
+    box-shadow: none;
+}
+
+.nautilus-window .nautilus-path-bar > button:active,
+.nautilus-window .nautilus-path-bar > button:checked,
+.nautilus-window .path-buttons-box button:active,
+.nautilus-window .path-buttons-box button:checked,
+.nautilus-window .nautilus-path-bar > button.current-dir,
+.nautilus-window .path-buttons-box button.current-dir {
+    background-color: @pathbar_btn_act;
+    background-image: none;
+    box-shadow: none;
+}
+
+.nautilus-window .nautilus-path-bar > button label,
+.nautilus-window .path-buttons-box button label {
+    color: @pathbar_fg;
+}
+
+.nautilus-window headerbar > menubutton > button,
+.nautilus-window headerbar > button:not(.titlebutton) {
+    box-shadow: none;
+}
+
+.nautilus-window headerbar > menubutton > button:hover,
+.nautilus-window headerbar > button:not(.titlebutton):hover {
+    box-shadow: none;
+}
+
+.nautilus-window .sidebar-pane,
+.nautilus-window .content-pane {
+    border-bottom: 1px solid @header_separator;
+}
+CSS
+
       - name: Commit migration and remove temporary workflow
         shell: bash
         run: |
@@ -95,5 +184,5 @@ jobs:
           git add Obsidian-2/gtk-4.0/gtk.css
           git rm .github/workflows/gtk4-fix.yml
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'fix: make original Obsidian-2 GTK4 CSS warning-free'
+          git commit -m 'fix: align Nautilus split headerbars and path buttons'
           git push
