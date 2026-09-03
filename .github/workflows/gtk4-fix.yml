@@ -25,53 +25,66 @@ jobs:
           p = Path('Obsidian-2/gtk-4.0/gtk.css')
           s = p.read_text(encoding='utf-8')
 
-          # Syntax/typo fixes: these do not alter the intended theme design.
           s = s.replace('padding 10px;', 'padding: 10px;')
           s = s.replace(':backdoop:', ':backdrop:')
           s = s.replace('@@theme_accent_color', '@theme_accent_color')
-          s = s.replace('border-left: 1px solid alpha(@pathbar_bdr, 0.75)\\n',
-                        'border-left: 1px solid alpha(@pathbar_bdr, 0.75);\\n')
-
-          # GTK4 removed -gtk-icon-effect. GTK documents brightness(1.2)
-          # as the direct replacement for "highlight".
+          s = s.replace('border-left: 1px solid alpha(@pathbar_bdr, 0.75)\n', 'border-left: 1px solid alpha(@pathbar_bdr, 0.75);\n')
           s = s.replace('-gtk-icon-effect: highlight;', '-gtk-icon-filter: brightness(1.2);')
           s = s.replace('-gtk-icon-effect: dim;', '-gtk-icon-filter: opacity(0.5);')
+          s = re.sub(r'^\s*-gtk-outline-[^:;]+:\s*[^;]+;\s*\n', '', s, flags=re.M)
 
-          # GTK4 removed -gtk-outline-*-radius; ordinary border-radius remains.
-          s = re.sub(r'^\\s*-gtk-outline-[^:;]+:\\s*[^;]+;\\s*\\n', '', s, flags=re.M)
+          def matching(text, start):
+              depth = 0
+              for i in range(start, len(text)):
+                  if text[i] == '(':
+                      depth += 1
+                  elif text[i] == ')':
+                      depth -= 1
+                      if depth == 0:
+                          return i
+              return -1
 
-          # GTK4 removed -gtk-gradient. Convert the legacy radial form to
-          # standard CSS radial-gradient while retaining position, colors,
-          # size, repeat and positioning from the original theme.
-          pat = re.compile(
-              r'-gtk-gradient\\(radial,\\s*'
-              r'([^,]+),\\s*0,\\s*([^,]+),\\s*([0-9.]+),\\s*'
-              r'(?:from\\(([^)]+)\\)|to\\(([^)]+)\\)),\\s*'
-              r'(?:from\\(([^)]+)\\)|to\\(([^)]+)\\))\\)'
-          )
+          def split_top(text):
+              out, last, depth = [], 0, 0
+              for i, c in enumerate(text):
+                  if c == '(':
+                      depth += 1
+                  elif c == ')':
+                      depth -= 1
+                  elif c == ',' and depth == 0:
+                      out.append(text[last:i].strip())
+                      last = i + 1
+              out.append(text[last:].strip())
+              return out
 
-          def grad(m):
-              pos1, pos2, radius, a_from, a_to, b_from, b_to = m.groups()
-              # Legacy GTK radial gradients use the same center twice in the
-              # theme. Keep that center exactly; the legacy radius is already
-              # expressed relative to the widget and background-size preserves
-              # the visual extent.
-              first = a_from if a_from is not None else a_to
-              second = b_to if b_to is not None else b_from
-              return f'radial-gradient(circle at {pos1.strip()}, {first.strip()} 0%, {second.strip()} 100%)'
+          needle = '-gtk-gradient('
+          out, pos = [], 0
+          while True:
+              st = s.find(needle, pos)
+              if st < 0:
+                  out.append(s[pos:])
+                  break
+              out.append(s[pos:st])
+              en = matching(s, st + len('-gtk-gradient'))
+              if en < 0:
+                  raise SystemExit('Unmatched -gtk-gradient()')
+              inner = s[st + len(needle):en]
+              parts = split_top(inner)
+              if len(parts) >= 7 and parts[0] == 'radial':
+                  p1 = parts[1].strip()
+                  def stop(x):
+                      m = re.match(r'^(?:from|to)\((.*)\)$', x, re.S)
+                      return m.group(1).strip() if m else x
+                  out.append(f'radial-gradient(circle at {p1}, {stop(parts[5])} 0%, {stop(parts[6])} 100%)')
+              else:
+                  raise SystemExit('Unsupported legacy -gtk-gradient() form')
+              pos = en + 1
+          s = ''.join(out)
 
-          s2 = pat.sub(grad, s)
-          if s2 == s and '-gtk-gradient(' in s:
-              raise SystemExit('GTK4 migration failed: legacy -gtk-gradient remains but was not matched')
-          s = s2
-
-          # Nemo's GTK3-only private properties are not valid GTK4 CSS.
-          s = re.sub(r'(?ms)^NemoPlacesTreeView\\s*\\{.*?^\\}', '', s)
-
+          s = re.sub(r'(?ms)^NemoPlacesTreeView(?::selected)?\s*\{.*?^\}\s*', '', s)
           p.write_text(s, encoding='utf-8')
           PY
 
-          # Show any remaining GTK3-only constructs before parser testing.
           if grep -nE -- '-gtk-(gradient|icon-effect|icon-theme|outline-)' Obsidian-2/gtk-4.0/gtk.css; then
             echo 'Legacy GTK3-only properties remain.'
             exit 1
@@ -97,7 +110,6 @@ jobs:
             echo 'GTK4 theme parser reported errors.'
             exit 1
           fi
-          # timeout is expected because widget-factory is interactive.
           if [ "$rc" -ne 0 ] && [ "$rc" -ne 124 ]; then
             exit "$rc"
           fi
