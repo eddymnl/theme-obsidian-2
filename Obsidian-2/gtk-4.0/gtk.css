@@ -432,7 +432,7 @@ infobar,
 .error {
   text-shadow: none;
   border: none; 
-  padding 10px;
+  padding: 10px;
 }
 .info .label, 
 .warning .label, 
@@ -602,7 +602,7 @@ button:hover {
     border-color: @button_border;
     /* box-shadow: 0 1px 1px alpha(@box_shadow, 0.2); */
     background-image: linear-gradient(to bottom, @button_bg_a_hov, @button_bg_b_hov 40%, @button_bg_c_hov);
-    -gtk-icon-effect: highlight;
+    -gtk-icon-filter: brightness(1.2);
 }
 notebook > header > tabs > arrow:active, 
 notebook > header > tabs > arrow:checked,
@@ -1366,8 +1366,8 @@ button > button > image {
 .stack-switcher > button.needs-attention > image, 
 stacksidebar row.needs-attention > label {
     animation: needs_attention 150ms ease-in;
-    background-image: -gtk-gradient(radial, center center, 0, center center, 0.5, to(@theme_accent_color), to(transparent)),
-                      -gtk-gradient(radial, center center, 0, center center, 0.45, to(rgba(0, 0, 0, 0.82745)), to(transparent));
+    background-image: radial-gradient(circle at center center, @theme_accent_color 0%, transparent 100%),
+                      radial-gradient(circle at center center, rgba(0, 0, 0, 0.82745) 0%, transparent 100%);
   background-size: 6px 6px, 6px 6px;
   background-repeat: no-repeat;
   background-position: right 3px, right 2px; 
@@ -1483,8 +1483,7 @@ toolbar.inline-toolbar toolbutton:backdrop > button.flat:backdrop {
 .linked > combobox > box > button.combo:dir(rtl) {
   border-radius: 0;
   border-right-style: none;
-  -gtk-outline-radius: 0; 
-  box-shadow: none; 
+    box-shadow: none; 
 }
 /*.inline-toolbar button:disabled, 
 .linked > button:disabled, 
@@ -1538,8 +1537,7 @@ spinbutton.vertical.linked > text,
 .linked.vertical > combobox > box > button.combo {
     border-style: solid solid none solid;
     border-radius: 0; 
-    -gtk-outline-radius: 0; 
-}
+    }
 
 .linked.vertical > button:first-child, 
 .linked.vertical > combobox:first-child > box > button.combo, 
@@ -3115,8 +3113,8 @@ scrolledwindow viewport.frame {
     border-style: none; 
 }
 scrolledwindow overshoot.top {
-    background-image: -gtk-gradient(radial, center top, 0, center top, 0.5, to(#040404), to(rgba(4, 4, 4, 0))),
-                      -gtk-gradient(radial, center top, 0, center top, 0.6, from(rgba(238, 238, 236, 0.07)), to(rgba(238, 238, 236, 0)));
+    background-image: radial-gradient(circle at center top, #040404 0%, rgba(4, 4, 4, 0) 100%),
+                      radial-gradient(circle at center top, rgba(238, 238, 236, 0.07) 0%, rgba(238, 238, 236, 0) 100%);
     background-size: 100% 5%, 100% 100%;
     background-repeat: no-repeat;
     background-position: center top;
@@ -3125,7 +3123,7 @@ scrolledwindow overshoot.top {
     box-shadow: none; 
 }
 scrolledwindow overshoot.top:backdrop {
-    background-image: -gtk-gradient(radial, center top, 0, center top, 0.5, to(#202425), to(rgba(32, 36, 37, 0)));
+    background-image: radial-gradient(circle at center top, #202425 0%, rgba(32, 36, 37, 0) 100%);
     background-size: 100% 5%;
     background-repeat: no-repeat;
     background-position: center top;
@@ -3134,8 +3132,8 @@ scrolledwindow overshoot.top:backdrop {
     box-shadow: none; 
 }
 scrolledwindow overshoot.bottom {
-    background-image: -gtk-gradient(radial, center bottom, 0, center bottom, 0.5, to(#040404), to(rgba(4, 4, 4, 0))),
-                      -gtk-gradient(radial, center bottom, 0, center bottom, 0.6, from(rgba(238, 238, 236, 0.07)), to(rgba(238, 238, 236, 0)));
+    background-image: radial-gradient(circle at center bottom, #040404 0%, rgba(4, 4, 4, 0) 100%),
+                      radial-gradient(circle at center bottom, rgba(238, 238, 236, 0.07) 0%, rgba(238, 238, 236, 0) 100%);
     background-size: 100% 5%, 100% 100%;
     background-repeat: no-repeat;
     background-position: center bottom;
@@ -3144,7 +3142,7 @@ scrolledwindow overshoot.bottom {
     box-shadow: none;
 }
 scrolledwindow overshoot.bottom:backdrop {
-    background-image: -gtk-gradient(radial, center bottom, 0, center bottom, 0.5, to(#202425), to(rgba(32, 36, 37, 0)));
+    background-image: radial-gradient(circle at center bottom, #202425 0%, rgba(32, 36, 37, 0) 100%);
     background-size: 100% 5%;
     background-repeat: no-repeat;
     background-position: center bottom;
@@ -3153,8 +3151,8 @@ scrolledwindow overshoot.bottom:backdrop {
     box-shadow: none;
 }
 scrolledwindow overshoot.left {
-    background-image: -gtk-gradient(radial, left center, 0, left center, 0.5, to(#040404), to(rgba(4, 4, 4, 0))),
-                      -gtk-gradient(radial, left center, 0, left center, 0.6, from(rgba(238, 238, 236, 0.07)), to(rgba(238, 238, 236, 0)));
+    background-image: radial-gradient(circle at left center, #040404 0%, rgba(4, 4, 4, 0) 100%),
+                      radial-gradient(circle at left center, rgba(238, 238, 236, 0.07) 0%, rgba(238, 238, 236, 0) 100%);
     background-size: 5% 100%, 100% 100%;
     background-repeat: no-repeat;
     background-position: left center;
@@ -3163,7 +3161,7 @@ scrolledwindow overshoot.left {
     box-shadow: none; 
 }
 scrolledwindow overshoot.left:backdrop {
-    background-image: -gtk-gradient(radial, left center, 0, left center, 0.5, to(#202425), to(rgba(32, 36, 37, 0)));
+    background-image: radial-gradient(circle at left center, #202425 0%, rgba(32, 36, 37, 0) 100%);
     background-size: 5% 100%;
     background-repeat: no-repeat;
     background-position: left center;
@@ -3172,8 +3170,8 @@ scrolledwindow overshoot.left:backdrop {
     box-shadow: none; 
 }
 scrolledwindow overshoot.right {
-    background-image: -gtk-gradient(radial, right center, 0, right center, 0.5, to(#040404), to(rgba(4, 4, 4, 0))),
-                      -gtk-gradient(radial, right center, 0, right center, 0.6, from(rgba(238, 238, 236, 0.07)), to(rgba(238, 238, 236, 0)));
+    background-image: radial-gradient(circle at right center, #040404 0%, rgba(4, 4, 4, 0) 100%),
+                      radial-gradient(circle at right center, rgba(238, 238, 236, 0.07) 0%, rgba(238, 238, 236, 0) 100%);
     background-size: 5% 100%, 100% 100%;
     background-repeat: no-repeat;
     background-position: right center;
@@ -3182,7 +3180,7 @@ scrolledwindow overshoot.right {
     box-shadow: none;
 }
 scrolledwindow overshoot.right:backdrop {
-    background-image: -gtk-gradient(radial, right center, 0, right center, 0.5, to(#202425), to(rgba(32, 36, 37, 0)));
+    background-image: radial-gradient(circle at right center, #202425 0%, rgba(32, 36, 37, 0) 100%);
     background-size: 5% 100%;
     background-repeat: no-repeat;
     background-position: right center;
@@ -4058,7 +4056,7 @@ headerbar button:hover,
     border-color: @titlebutton_border;
     /* box-shadow: 0 1px 1px alpha(@box_shadow, 0.2); */
     background-image: linear-gradient(to bottom, @titlebutton_bg_a_hov, @titlebutton_bg_b_hov 40%, @titlebutton_bg_c_hov);
-    -gtk-icon-effect: highlight;
+    -gtk-icon-filter: brightness(1.2);
 }
 headerbar button:active,
 headerbar button:checked,
@@ -4977,7 +4975,7 @@ headerbar button.flat:hover:backdrop,
     border: 1px solid @titlebutton_border;
     /* box-shadow: 0 1px 1px alpha(@box_shadow, 0.2); */
     background-image: linear-gradient(to bottom, @titlebutton_bg_a_hov, @titlebutton_bg_b_hov 40%, @titlebutton_bg_c_hov);
-    -gtk-icon-effect: highlight;
+    -gtk-icon-filter: brightness(1.2);
 }
 headerbar button.flat:hover:active,
 .titlebar button.flat:hover:active {
@@ -5010,7 +5008,7 @@ headerbar popover button:hover,
     border-color: @button_border;
     /* box-shadow: 0 1px 1px alpha(@box_shadow, 0.2); */
     background-image: linear-gradient(to bottom, @button_bg_a_hov, @button_bg_b_hov 40%, @button_bg_c_hov);
-    -gtk-icon-effect: highlight;
+    -gtk-icon-filter: brightness(1.2);
 }
 headerbar popover button:active,
 headerbar popover button:checked,
@@ -5278,7 +5276,7 @@ button:active:visited {
 }
 *:link:backdrop:backdrop:hover, 
 button:backdrop:backdrop:hover:link,
-button:backdoop:backdrop:hover:visited, 
+button:backdrop:backdrop:hover:visited, 
 *:link:backdrop:backdrop:hover:selected, 
 button:backdrop:backdrop:hover:selected:link,
 button:backdrop:backdrop:hover:selected:visited, 
@@ -9434,10 +9432,10 @@ window.background.budgie-settings-window.csd > box.horizontal > stack > scrolled
     background-color: rgba(80, 106, 104, 0.75); 
 }
 .nautilus-window .sidebar .list-row:selected {
-    background-color: @@theme_accent_color;
+    background-color: @theme_accent_color;
 }
 .nautilus-window .sidebar .list-row:selected:hover {
-    background-color: @@theme_accent_color;
+    background-color: @theme_accent_color;
 }
 .nautilus-window .sidebar .list-row:hover {
     background-color: alpha(@sidebar_hovering, 0.2);
@@ -9532,7 +9530,7 @@ headerbar #NautilusPathBar button > .horizontal > image.subtitle {
     background-color: @pathbar_bg;
     margin: 0; 
     border-radius: 0px 4px 4px 0px;
-    border-left: 1px solid alpha(@pathbar_bdr, 0.75)
+    border-left: 1px solid alpha(@pathbar_bdr, 0.75);
 }
 #NautilusPathBar .flat.popup button {
     background-color: @pathbar_bg;
@@ -10631,21 +10629,6 @@ NemoWindow .sidebar .view {
     box-shadow: inset 1px 0 rgba(21, 23, 28, 0.37);
 }
 
-NemoPlacesTreeView {
-    -NemoPlacesTreeView-disk-full-bg-color: #808080;
-    -NemoPlacesTreeView-disk-full-fg-color: @theme_accent_color;
-    -NemoPlacesTreeView-disk-full-bar-width: 2px;
-    -NemoPlacesTreeView-disk-full-bar-radius: 0px;
-    /*-NemoPlacesTreeView-disk-full-top-padding: 40px;
-    -NemoPlacesTreeView-disk-full-bottom-padding: 5px;*/
-    border-radius: 0px;
-}
-
-NemoPlacesTreeView:selected {
-    -NemoPlacesTreeView-disk-full-bg-color: #808080;
-    -NemoPlacesTreeView-disk-full-fg-color: @theme_accent_color;
-    border-radius: 0px;
-}
 
 NemoWindow .sidebar .frame {
     border: none;
