@@ -5,7 +5,7 @@
 ************************************************************************************************* */
 
 
-/* ****************************** A C C E N T   C O L O U R S *********************************** */
+/* ****************************** A C C E N T   C O L O R S *********************************** */
 
 @define-color    theme_accent_color                    #0070c0;
 
@@ -87,6 +87,43 @@
 
 @define-color    terminal_fg                           #729FCF;
 
+/* Nautilus GTK4: suppress only the generic button gradient inside the path
+ * bar. Keep the original button geometry, border, radius and colors. */
+.nautilus-window .nautilus-path-bar .path-buttons-box button,
+.nautilus-window .path-buttons-box button,
+.nautilus-window .nautilus-path-bar .path-buttons-box button:hover,
+.nautilus-window .path-buttons-box button:hover,
+.nautilus-window .nautilus-path-bar .path-buttons-box button:active,
+.nautilus-window .path-buttons-box button:active,
+.nautilus-window .nautilus-path-bar .path-buttons-box button:checked,
+.nautilus-window .path-buttons-box button:checked,
+.nautilus-window .nautilus-path-bar .path-buttons-box button:backdrop,
+.nautilus-window .path-buttons-box button:backdrop {
+    background-image: none;
+    box-shadow: none;
+}
+
+/* The path bar's scrolling area has GTK undershoot nodes which can draw their
+ * own edge gradient. Disable those effects only inside Nautilus' path bar. */
+.nautilus-window .nautilus-path-bar scrolledwindow undershoot.top,
+.nautilus-window .nautilus-path-bar scrolledwindow undershoot.bottom,
+.nautilus-window .nautilus-path-bar scrolledwindow undershoot.left,
+.nautilus-window .nautilus-path-bar scrolledwindow undershoot.right {
+    background-image: none;
+    box-shadow: none;
+}
+
+/* Nautilus GTK4 menu button (three dots): suppress only the generic
+ * headerbar button gradient. Keep its existing size, border and radius. */
+.nautilus-window headerbar menubutton > button.toggle,
+.nautilus-window headerbar menubutton > button.toggle:hover,
+.nautilus-window headerbar menubutton > button.toggle:active,
+.nautilus-window headerbar menubutton > button.toggle:checked,
+.nautilus-window headerbar menubutton > button.toggle:backdrop {
+    background-image: none;
+    box-shadow: none;
+}
+
 /* Nautilus split panes: keep the two headerbars vertically aligned. */
 .nautilus-window .sidebar-pane headerbar,
 .nautilus-window .content-pane headerbar,
@@ -101,11 +138,4 @@
 .nautilus-window .sidebar-pane,
 .nautilus-window .content-pane {
     border-bottom: 1px solid @header_separator;
-}
-
-/* Nautilus GTK4 path bar only.  This is the selector used by Nautilus itself,
- * so the generic Obsidian button styling remains untouched everywhere else. */
-.nautilus-window headerbar .linked.nautilus-path-bar .path-buttons-box button {
-    background-image: none;
-    box-shadow: none;
 }
