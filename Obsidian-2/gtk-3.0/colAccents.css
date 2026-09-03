@@ -88,73 +88,21 @@
 @define-color    terminal_fg                           #729FCF;
 
 
-/* Nautilus: GTK4 uses the class-based path bar nodes.  Keep these selectors
- * more specific than the theme-wide button rules so the old button gradient
- * cannot leak into the path bar. */
-.nautilus-window headerbar .nautilus-path-bar,
-.nautilus-window headerbar .path-bar-box {
-    min-height: 32px;
-    margin-top: 1px;
-    margin-bottom: 1px;
-    background-color: @pathbar_bg;
-    background-image: none;
-    border: 1px solid @pathbar_bdr;
-    border-radius: 4px;
-    box-shadow: none;
+/* Nautilus GTK4: keep the original Obsidian button geometry.  Only disable
+ * the generic GTK button background image/shadow that leaks into the path bar. */
+.nautilus-window .nautilus-path-bar .path-buttons-box button,
+.nautilus-window .path-buttons-box button {
+    background-image: none !important;
+    box-shadow: none !important;
 }
 
-.nautilus-window headerbar .nautilus-path-bar > scrolledwindow,
-.nautilus-window headerbar .path-bar-box > scrolledwindow {
-    background-color: transparent;
-    background-image: none;
-    border: 0;
-    box-shadow: none;
+.nautilus-window .nautilus-path-bar > scrolledwindow,
+.nautilus-window .path-bar-box > scrolledwindow {
+    background-image: none !important;
+    box-shadow: none !important;
 }
 
-.nautilus-window headerbar .nautilus-path-bar > scrolledwindow undershoot,
-.nautilus-window headerbar .path-bar-box > scrolledwindow undershoot {
-    background: none;
-    box-shadow: none;
-}
-
-.nautilus-window headerbar .nautilus-path-bar > button,
-.nautilus-window headerbar .path-buttons-box button {
-    min-height: 32px;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    border-radius: 0;
-    background-color: @pathbar_bg;
-    background-image: none;
-    box-shadow: none;
-    -gtk-icon-shadow: none;
-}
-
-.nautilus-window headerbar .nautilus-path-bar > button:hover,
-.nautilus-window headerbar .path-buttons-box button:hover {
-    background-color: @pathbar_btn_hov;
-    background-image: none;
-    box-shadow: none;
-}
-
-.nautilus-window headerbar .nautilus-path-bar > button:active,
-.nautilus-window headerbar .nautilus-path-bar > button:checked,
-.nautilus-window headerbar .path-buttons-box button:active,
-.nautilus-window headerbar .path-buttons-box button:checked,
-.nautilus-window headerbar .nautilus-path-bar > button.current-dir,
-.nautilus-window headerbar .path-buttons-box button.current-dir {
-    background-color: @pathbar_btn_act;
-    background-image: none;
-    box-shadow: none;
-}
-
-.nautilus-window headerbar .nautilus-path-bar > button label,
-.nautilus-window headerbar .path-buttons-box button label {
-    color: @pathbar_fg;
-}
-
-/* Nautilus split panes: force the two headerbars to share the same vertical
- * metrics so the horizontal separator stays on one line. */
+/* Nautilus split panes: keep the two headerbars vertically aligned. */
 .nautilus-window .sidebar-pane headerbar,
 .nautilus-window .content-pane headerbar,
 .nautilus-window .sidebar-pane headerbar:backdrop,
@@ -170,14 +118,12 @@
     border-bottom: 1px solid @header_separator;
 }
 
-/* Nautilus GTK4 menu button (the three-dots button).  GtkMenuButton is
- * implemented as menubutton > button.toggle; remove only the generic
- * gradient/highlight from this control, leaving its normal border intact. */
+/* Nautilus GTK4 menu button: remove only the leaked generic gradient/shadow;
+ * do not alter its border, radius, padding or normal button appearance. */
 .nautilus-window headerbar menubutton > button.toggle,
 .nautilus-window headerbar menubutton > button.toggle:hover,
 .nautilus-window headerbar menubutton > button.toggle:active,
 .nautilus-window headerbar menubutton > button.toggle:checked {
-    background-image: none;
-    box-shadow: none;
-    -gtk-icon-shadow: none;
+    background-image: none !important;
+    box-shadow: none !important;
 }
