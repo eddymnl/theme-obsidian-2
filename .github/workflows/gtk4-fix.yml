@@ -65,7 +65,9 @@ jobs:
       - name: Install GTK4 test tools
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-4-bin gtk-4-examples
+          sudo apt-get install -y libgtk-4-bin gtk-4-examples xvfb
+          command -v gtk4-widget-factory
+          test "$(dpkg -L gtk-4-examples | grep -E '/gtk4-widget-factory$' | head -n1)" = "/usr/bin/gtk4-widget-factory"
 
       - name: Parse theme with GTK4
         shell: bash
@@ -73,7 +75,7 @@ jobs:
           set -o pipefail
           sudo cp -a Obsidian-2 /usr/share/themes/Obsidian-2
           set +e
-          timeout 8s env GTK_THEME=Obsidian-2 gtk4-widget-factory >/tmp/gtk4.out 2>/tmp/gtk4.err
+          timeout 12s xvfb-run -a -s '-screen 0 1280x900x24' env GTK_THEME=Obsidian-2 GDK_BACKEND=x11 gtk4-widget-factory >/tmp/gtk4.out 2>/tmp/gtk4.err
           rc=$?
           set -e
           cat /tmp/gtk4.out
