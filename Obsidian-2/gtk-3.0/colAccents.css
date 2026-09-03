@@ -77,7 +77,7 @@
 @define-color    infobar_button_bg_a                   #0069ce;
 @define-color    infobar_button_bg_b                   #00458e;
 @define-color    infobar_button_bg_act_a               #00357e;
-@define-color    infobar_button_bg_act_b               #00458e;
+@define-color    infobar_button_bg_act_b               #04478d;
 @define-color    infobar_button_border                 #003361;
 
 @define-color    menuitem_bg_hover                     @theme_accent_color;
@@ -95,6 +95,7 @@ headerbar .nautilus-pathbar > scrolledwindow button:checked,
 headerbar .nautilus-pathbar > scrolledwindow button:backdrop,
 headerbar .nautilus-pathbar > scrolledwindow button:disabled {
     background-image: none;
+    background-color: @button_bg_b;
     box-shadow: none;
 }
 
@@ -106,5 +107,15 @@ headerbar .nautilus-pathbar > menubutton > button.toggle:checked,
 headerbar .nautilus-pathbar > menubutton > button.toggle:backdrop,
 headerbar .nautilus-pathbar > menubutton > button.toggle:disabled {
     background-image: none;
+    background-color: @button_bg_b;
     box-shadow: none;
+}
+
+headerbar .nautilus-pathbar > menubutton > button.toggle:hover {
+    background-color: @button_bg_b_hov;
+}
+
+headerbar .nautilus-pathbar > menubutton > button.toggle:active,
+headerbar .nautilus-pathbar > menubutton > button.toggle:checked {
+    background-color: @button_bg_b_act;
 }
