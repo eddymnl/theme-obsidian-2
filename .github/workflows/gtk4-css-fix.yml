@@ -1,0 +1,113 @@
+name: Fix GTK4 CSS
+
+on:
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Apply conservative GTK4 fixes
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+          import re
+
+          path = Path('Obsidian-2/gtk-4.0/gtk.css')
+          css = path.read_text()
+
+          # GTK4 syntax migrations: keep the original theme rules intact.
+          css = css.replace('padding 10px;', 'padding: 10px;')
+          css = css.replace('-gtk-icon-effect: highlight;', '-gtk-icon-filter: brightness(1.2);')
+          css = css.replace('-gtk-icon-effect: dim;', '-gtk-icon-filter: opacity(0.5);')
+          css = css.replace('-gtk-outline-radius: 0; \n', '')
+          css = css.replace('-gtk-outline-radius: 0;\n', '')
+          css = css.replace(':backdoop:', ':backdrop:')
+          css = css.replace('@@theme_accent_color', '@theme_accent_color')
+          css = css.replace('border-left: 1px solid alpha(@pathbar_bdr, 0.75)\n',
+                            'border-left: 1px solid alpha(@pathbar_bdr, 0.75);\n')
+
+          # Replace the 14 legacy radial-gradient declarations with equivalent
+          # standard CSS radial gradients. These are exact source forms from
+          # the original Obsidian theme, so no other styling is rewritten.
+          replacements = {
+              '-gtk-gradient(radial, center center, 0, center center, 0.5, to(@theme_accent_color), to(transparent))':
+                  'radial-gradient(circle at center center, @theme_accent_color 0%, transparent 100%)',
+              '-gtk-gradient(radial, center center, 0, center center, 0.45, to(rgba(0, 0, 0, 0.82745)), to(transparent))':
+                  'radial-gradient(circle at center center, rgba(0, 0, 0, 0.82745) 0%, transparent 100%)',
+              '-gtk-gradient(radial, center top, 0, center top, 0.5, to(#040404), to(rgba(4, 4, 4, 0)))':
+                  'radial-gradient(circle at center top, #040404 0%, rgba(4, 4, 4, 0) 100%)',
+              '-gtk-gradient(radial, center top, 0, center top, 0.6, from(rgba(238, 238, 236, 0.07)), to(rgba(238, 238, 236, 0)))':
+                  'radial-gradient(circle at center top, rgba(238, 238, 236, 0.07) 0%, rgba(238, 238, 236, 0) 100%)',
+              '-gtk-gradient(radial, center top, 0, center top, 0.5, to(#202425), to(rgba(32, 36, 37, 0)))':
+                  'radial-gradient(circle at center top, #202425 0%, rgba(32, 36, 37, 0) 100%)',
+              '-gtk-gradient(radial, center bottom, 0, center bottom, 0.5, to(#040404), to(rgba(4, 4, 4, 0)))':
+                  'radial-gradient(circle at center bottom, #040404 0%, rgba(4, 4, 4, 0) 100%)',
+              '-gtk-gradient(radial, center bottom, 0, center bottom, 0.6, from(rgba(238, 238, 236, 0.07)), to(rgba(238, 238, 236, 0)))':
+                  'radial-gradient(circle at center bottom, rgba(238, 238, 236, 0.07) 0%, rgba(238, 238, 236, 0) 100%)',
+              '-gtk-gradient(radial, center bottom, 0, center bottom, 0.5, to(#202425), to(rgba(32, 36, 37, 0)))':
+                  'radial-gradient(circle at center bottom, #202425 0%, rgba(32, 36, 37, 0) 100%)',
+              '-gtk-gradient(radial, left center, 0, left center, 0.5, to(#040404), to(rgba(4, 4, 4, 0)))':
+                  'radial-gradient(circle at left center, #040404 0%, rgba(4, 4, 4, 0) 100%)',
+              '-gtk-gradient(radial, left center, 0, left center, 0.6, from(rgba(238, 238, 236, 0.07)), to(rgba(238, 238, 236, 0)))':
+                  'radial-gradient(circle at left center, rgba(238, 238, 236, 0.07) 0%, rgba(238, 238, 236, 0) 100%)',
+              '-gtk-gradient(radial, left center, 0, left center, 0.5, to(#202425), to(rgba(32, 36, 37, 0)))':
+                  'radial-gradient(circle at left center, #202425 0%, rgba(32, 36, 37, 0) 100%)',
+              '-gtk-gradient(radial, right center, 0, right center, 0.5, to(#040404), to(rgba(4, 4, 4, 0)))':
+                  'radial-gradient(circle at right center, #040404 0%, rgba(4, 4, 4, 0) 100%)',
+              '-gtk-gradient(radial, right center, 0, right center, 0.6, from(rgba(238, 238, 236, 0.07)), to(rgba(238, 238, 236, 0)))':
+                  'radial-gradient(circle at right center, rgba(238, 238, 236, 0.07) 0%, rgba(238, 238, 236, 0) 100%)',
+              '-gtk-gradient(radial, right center, 0, right center, 0.5, to(#202425), to(rgba(32, 36, 37, 0)))':
+                  'radial-gradient(circle at right center, #202425 0%, rgba(32, 36, 37, 0) 100%)',
+          }
+          for old, new in replacements.items():
+              css = css.replace(old, new)
+
+          # Remove obsolete Nemo-specific custom properties from GTK4 CSS.
+          css = re.sub(r'\nNemoPlacesTreeView \{.*?\n\}\n\nNemoPlacesTreeView:selected \{.*?\n\}\n', '\n', css, flags=re.S)
+
+          path.write_text(css)
+          PY
+
+      - name: Verify forbidden GTK3 syntax is gone
+        run: |
+          ! grep -nE -- '-gtk-gradient|-gtk-icon-effect|-gtk-outline-|:backdoop:|@@theme_accent_color|-NemoPlacesTreeView-' Obsidian-2/gtk-4.0/gtk.css
+
+      - name: Check GTK4 parser
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gtk-4-examples xvfb
+          mkdir -p "$HOME/.local/share/themes"
+          cp -a Obsidian-2 "$HOME/.local/share/themes/Obsidian-2"
+          set +e
+          timeout 8s xvfb-run -a env GTK_THEME=Obsidian-2 gtk4-widget-factory > /tmp/gtk4.log 2>&1
+          rc=$?
+          set -e
+          cat /tmp/gtk4.log
+          if grep -qE 'Theme parser (error|warning)|Gtk-WARNING' /tmp/gtk4.log; then
+            echo 'GTK4 parser warnings/errors detected'
+            exit 1
+          fi
+          test "$rc" -eq 124
+
+      - name: Commit fixed CSS
+        run: |
+          if git diff --quiet -- Obsidian-2/gtk-4.0/gtk.css; then
+            echo 'No CSS changes needed.'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add Obsidian-2/gtk-4.0/gtk.css
+          git commit -m 'fix: remove remaining GTK4 CSS parser warnings'
+          git push
