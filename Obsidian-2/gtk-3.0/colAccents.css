@@ -5,7 +5,7 @@
 ************************************************************************************************* */
 
 
-/* ****************************** A C C E N T   C O L O R S *********************************** */
+/* ****************************** A C C E N T   C O L O U R S *********************************** */
 
 @define-color    theme_accent_color                    #0070c0;
 
@@ -87,55 +87,4 @@
 
 @define-color    terminal_fg                           #729FCF;
 
-/* Nautilus split panes: keep the two headerbars vertically aligned. */
-.nautilus-window .sidebar-pane headerbar,
-.nautilus-window .content-pane headerbar,
-.nautilus-window .sidebar-pane headerbar:backdrop,
-.nautilus-window .content-pane headerbar:backdrop {
-    min-height: 46px;
-    padding-top: 0;
-    padding-bottom: 0;
-    box-shadow: none;
-}
 
-.nautilus-window .sidebar-pane,
-.nautilus-window .content-pane {
-    border-bottom: 1px solid @header_separator;
-}
-
-/* Nautilus GTK4 path bar: the buttons are direct children of the
- * .nautilus-path-bar container. The same rule also covers the internal
- * path-buttons-box where present. */
-.nautilus-window headerbar .nautilus-path-bar > button,
-.nautilus-window headerbar .nautilus-path-bar > button:hover,
-.nautilus-window headerbar .nautilus-path-bar > button:active,
-.nautilus-window headerbar .nautilus-path-bar > button:checked,
-.nautilus-window headerbar .nautilus-path-bar > button:backdrop,
-.nautilus-window headerbar .path-buttons-box button,
-.nautilus-window headerbar .path-buttons-box button:hover,
-.nautilus-window headerbar .path-buttons-box button:active,
-.nautilus-window headerbar .path-buttons-box button:checked,
-.nautilus-window headerbar .path-buttons-box button:backdrop {
-    background-image: none;
-    box-shadow: none;
-}
-
-/* GTK's scrolled-window edge effects inside the Nautilus path bar. */
-.nautilus-window headerbar .nautilus-path-bar > scrolledwindow undershoot.left,
-.nautilus-window headerbar .nautilus-path-bar > scrolledwindow undershoot.right,
-.nautilus-window headerbar .nautilus-path-bar > scrolledwindow undershoot.top,
-.nautilus-window headerbar .nautilus-path-bar > scrolledwindow undershoot.bottom {
-    background-image: none;
-    box-shadow: none;
-}
-
-/* Nautilus GTK4 menu button: remove only the inherited button gradient.
- * Do not change size, padding, border, radius or colors. */
-.nautilus-window headerbar menubutton > button,
-.nautilus-window headerbar menubutton > button:hover,
-.nautilus-window headerbar menubutton > button:active,
-.nautilus-window headerbar menubutton > button:checked,
-.nautilus-window headerbar menubutton > button:backdrop {
-    background-image: none;
-    box-shadow: none;
-}
