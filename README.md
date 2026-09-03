@@ -10,3 +10,5 @@ https://github.com/madmaxms/theme-obsidian-1
 
 # Installation
 Clone or download the repo and move the containing folder `Obsidian-2` to your `~/.themes` directory, or to `/usr/share/themes` (needs root access).
+
+GTK4 compatibility includes Nautilus-specific styling for the current path bar and split headerbars.
